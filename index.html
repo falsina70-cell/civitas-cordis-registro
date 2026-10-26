@@ -371,7 +371,13 @@
             <div class="citizen-code-box" id="cajaCodigoAsignado" style="display: none;">
                 <div class="citizen-code-title">Tu Código de Ciudadano / Afiliado es:</div>
                 <div class="citizen-code-number" id="codigoNuevoTexto">CC-XXXXXXX</div>
-                <div class="citizen-code-info">Comparte este código exclusivo para invitar a tus amigos y parejas a Civitas Cordis.</div>
+                <div style="margin-top: 12px; font-size: 0.88rem; color: #801018; font-weight: 700;">
+                    Código Privado de Unión (Para tu Pareja): <span id="codigoUnionTexto" style="font-family: monospace; font-size: 1.05rem; color: #0f172a; background: #e2e8f0; padding: 3px 8px; border-radius: 4px; border: 1px solid #cbd5e1;">CC-UNI-XXXXX</span>
+                </div>
+                <div style="margin-top: 10px; font-size: 0.88rem; color: #047857; font-weight: 600; background: #ecfdf5; padding: 6px 12px; border-radius: 6px; border: 1px solid #a7f3d0;">
+                    ✨ Saldo Inicial Acreditado: <b>+25 Lumens (Cuenta Civitas Activa · Turista)</b>
+                </div>
+                <div class="citizen-code-info" style="margin-top: 10px;">Tu patrocinador ha recibido +50 Lumens. Comparte tu código de afiliado para invitar amigos y comenzar a ganar comisiones y Lumens en la red.</div>
             </div>
 
             <button class="modal-close-btn" onclick="cerrarModal()">ENTENDIDO</button>
@@ -385,6 +391,15 @@
         function generarNuevoCodigoCiudadano() {
             let res = "CC-";
             for (let i = 0; i < 7; i++) {
+                const idx = Math.floor(Math.random() * CHARSET_ALFANUMERICO.length);
+                res += CHARSET_ALFANUMERICO[idx];
+            }
+            return res;
+        }
+
+        function generarCodigoUnion() {
+            let res = "CC-UNI-";
+            for (let i = 0; i < 5; i++) {
                 const idx = Math.floor(Math.random() * CHARSET_ALFANUMERICO.length);
                 res += CHARSET_ALFANUMERICO[idx];
             }
@@ -451,11 +466,15 @@
             }
 
             const nuevoCodigo = generarNuevoCodigoCiudadano();
+            const nuevoUnionCode = generarCodigoUnion();
 
             const datos = {
                 tipo: "REGISTRO_OFICIAL",
                 codigoPatrocinador: codigo,
                 codigoNuevoAsignado: nuevoCodigo,
+                unionCode: nuevoUnionCode,
+                lumens_balance: 25,
+                tier_level: 1,
                 nombre: document.getElementById('nombre').value,
                 email: document.getElementById('email').value,
                 whatsapp: document.getElementById('whatsapp').value,
@@ -470,6 +489,8 @@
                     "¡Bienvenido/a a Civitas Cordis, <b>" + datos.nombre + "</b>!<br><br>Tu patrocinador (<b>" + datos.codigoPatrocinador + "</b>) ha sido validado correctamente.<br><br>Hemos enviado la confirmación a tu correo <b>" + datos.email + "</b>.";
                 
                 document.getElementById('codigoNuevoTexto').innerText = nuevoCodigo;
+                const elUnion = document.getElementById('codigoUnionTexto');
+                if (elUnion) elUnion.innerText = nuevoUnionCode;
                 cajaCodigo.style.display = 'block';
 
                 modal.style.display = 'flex';
