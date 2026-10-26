@@ -266,7 +266,9 @@
                         <input type="text" id="codigoInvitacion" name="codigoInvitacion" required placeholder="Ej: CC-FUND-001 o CC-7K9M2QX" autocomplete="off">
                     </div>
                     <div id="codeFeedback" class="validation-msg"></div>
-                    <span class="no-code-link" onclick="mostrarListaEspera()">¿No tienes código de invitación? Haz clic aquí para solicitar acceso</span>
+                    <div style="margin-top: 6px; font-size: 11.5px; color: #64748b; line-height: 1.4;">
+                    Civitas Cordis es un territorio de acceso exclusivo por recomendación. Si no posees un código de patrocinador, solicítalo a un ciudadano activo o <a href="https://wa.me/573000000000?text=Hola,%20deseo%20solicitar%20un%20c%C3%B3digo%20de%20admisi%C3%B3n%20para%20Civitas%20Cordis" target="_blank" style="color: #801018; font-weight: 700; text-decoration: underline;">contacta al Despacho Notarial vía WhatsApp</a>.
+                </div>
                 </div>
 
                 <!-- Nombre Completo -->
@@ -319,42 +321,7 @@
         </div>
 
         <!-- ================= VISTA 2: SOLICITUD DE ACCESO / LISTA DE ESPERA ================= -->
-        <div id="vistaEspera" class="hidden-view">
-            <div class="exclusive-banner" style="border-left-color: #8a6d25; background: #fffcf5;">
-                <b>SOLICITUD DE ADMISIÓN A CIVITAS CORDIS:</b><br>
-                Si no cuentas con un código activo pero deseas ingresar, deja tus datos para evaluar tu solicitud y asignarte un código de invitación.
-            </div>
-
-            <form id="esperaForm">
-                <div class="form-group">
-                    <label for="nombreEspera">Nombre y Apellidos completos <span class="req">*</span></label>
-                    <input type="text" id="nombreEspera" name="nombreEspera" required placeholder="Tu nombre completo">
-                </div>
-
-                <div class="form-group">
-                    <label for="emailEspera">Correo Electrónico <span class="req">*</span></label>
-                    <input type="email" id="emailEspera" name="emailEspera" required placeholder="tu-correo@ejemplo.com">
-                </div>
-
-                <div class="form-group">
-                    <label for="whatsappEspera">WhatsApp (con código de país) <span class="req">*</span></label>
-                    <input type="tel" id="whatsappEspera" name="whatsappEspera" required placeholder="+57 300 123 4567">
-                </div>
-
-                <div class="form-group">
-                    <label for="motivoEspera">¿Por qué te gustaría unirte a Civitas Cordis?</label>
-                    <textarea id="motivoEspera" name="motivoEspera" rows="3" placeholder="Cuéntanos qué buscas o qué te atrajo del proyecto..."></textarea>
-                </div>
-
-                <button type="submit" class="submit-btn" style="background: linear-gradient(135deg, #14233c 0%, #0d1727 100%); border-color: #8a6d25;">
-                    ENVIAR SOLICITUD DE ACCESO
-                </button>
-
-                <div style="text-align: center; margin-top: 14px;">
-                    <span class="no-code-link" onclick="mostrarRegistro()">¿Ya conseguiste tu código? Volver al registro principal</span>
-                </div>
-            </form>
-        </div>
+        
 
         <div class="footer-note">
             CIVITAS CORDIS · CIUDAD DEL AMOR
@@ -412,7 +379,7 @@
         ];
 
         const vistaRegistro = document.getElementById('vistaRegistro');
-        const vistaEspera = document.getElementById('vistaEspera');
+        
         const inputCodigo = document.getElementById('codigoInvitacion');
         const codeFeedback = document.getElementById('codeFeedback');
         const modal = document.getElementById('modalExito');
@@ -444,15 +411,9 @@
             }
         });
 
-        function mostrarListaEspera() {
-            vistaRegistro.className = "hidden-view";
-            vistaEspera.className = "view-section";
-        }
+        
 
-        function mostrarRegistro() {
-            vistaEspera.className = "hidden-view";
-            vistaRegistro.className = "view-section";
-        }
+        
 
         document.getElementById('registroForm').addEventListener('submit', function(e) {
             e.preventDefault();
@@ -499,28 +460,7 @@
             });
         });
 
-        document.getElementById('esperaForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const datos = {
-                tipo: "SOLICITUD_ACCESO_ESPERA",
-                codigoPatrocinador: "SIN_CODIGO_ESPERA",
-                codigoNuevoAsignado: "PENDIENTE",
-                nombre: document.getElementById('nombreEspera').value,
-                email: document.getElementById('emailEspera').value,
-                whatsapp: document.getElementById('whatsappEspera').value,
-                motivo: document.getElementById('motivoEspera').value,
-                fechaRegistro: new Date().toISOString()
-            };
-
-            guardarDatos(datos, () => {
-                document.getElementById('modalTitulo').innerText = "SOLICITUD RECIBIDA";
-                document.getElementById('modalMensaje').innerHTML = 
-                    "Gracias, <b>" + datos.nombre + "</b>.<br><br>Tu solicitud ha sido radicada en la Lista de Espera de Civitas Cordis. Te notificaremos a tu WhatsApp o correo una vez aprobemos tu acceso.";
-                cajaCodigo.style.display = 'none';
-                modal.style.display = 'flex';
-                document.getElementById('esperaForm').reset();
-                mostrarRegistro();
-            });
+        
         });
 
         function guardarDatos(datos, callback) {
