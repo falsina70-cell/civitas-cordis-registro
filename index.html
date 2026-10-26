@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Civitas Cordis · Acceso Exclusivo por Invitación</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background: #121824;
+            background: radial-gradient(circle at 50% 20%, #1f293d 0%, #0d121c 100%);
+            font-family: 'Montserrat', sans-serif;
+            color: #e2e8f0;
+            padding: 24px 12px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .form-card {
+            background: #fbf9f4;
+            color: #1e293b;
+            max-width: 590px;
+            width: 100%;
+            border-radius: 12px;
+            border: 2px solid #b38728;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            padding: 34px 26px;
+            position: relative;
+            overflow: hidden;
+        }
+        .form-card::before {
+            content: "";
+            position: absolute;
+            top: 4px; left: 4px; right: 4px; bottom: 4px;
+            border: 1px solid #801018;
+            border-radius: 8px;
+            pointer-events: none;
+        }
+        .header {
+            text-align: center;
+            border-bottom: 2px solid #b38728;
+            padding-bottom: 16px;
+            margin-bottom: 20px;
+        }
+        .badge {
+            display: inline-block;
+            background: #801018;
+            color: #fff;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            padding: 4px 14px;
+            border-radius: 20px;
+            margin-bottom: 8px;
+        }
+        .title {
+            font-family: 'Cinzel', serif;
+            font-size: 22px;
+            font-weight: 800;
+            color: #801018;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+        }
+        .subtitle {
+            font-size: 12px;
+            font-style: italic;
+            color: #8a6d25;
+            margin-top: 4px;
+        }
+        .exclusive-banner {
+            background: #fbf3e6;
+            border: 1.5px solid #b38728;
+            border-left: 5px solid #801018;
+            padding: 12px 14px;
+            font-size: 12px;
+            line-height: 1.45;
+            color: #2b394a;
+            margin-bottom: 20px;
+            border-radius: 0 6px 6px 0;
+        }
+        .exclusive-banner b {
+            color: #801018;
+        }
+        .form-group {
+            margin-bottom: 16px;
+        }
+        label {
+            display: block;
+            font-size: 12.5px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 6px;
+        }
+        label span.req {
+            color: #801018;
+        }
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 11px 13px;
+            border: 1.5px solid #cbd5e1;
+            border-radius: 6px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 13px;
+            color: #1e293b;
+            background: #ffffff;
+            transition: all 0.2s ease;
+        }
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #801018;
+            box-shadow: 0 0 0 3px rgba(128, 16, 24, 0.15);
+        }
+        .code-input-wrapper input {
+            font-family: 'Cinzel', monospace;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            font-size: 15px;
+            border-color: #b38728;
+            background: #fffdf9;
+        }
+        .validation-msg {
+            font-size: 11.5px;
+            font-weight: 600;
+            margin-top: 5px;
+            display: none;
+        }
+        .validation-msg.valid {
+            color: #15803d;
+            display: block;
+        }
+        .validation-msg.invalid {
+            color: #b91c1c;
+            display: block;
+        }
+        .no-code-link {
+            display: inline-block;
+            margin-top: 8px;
+            font-size: 11.5px;
+            color: #801018;
+            text-decoration: underline;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin: 18px 0;
+        }
+        .checkbox-group input {
+            margin-top: 3px;
+            cursor: pointer;
+            accent-color: #801018;
+            width: 16px;
+            height: 16px;
+        }
+        .checkbox-label {
+            font-size: 11.5px;
+            line-height: 1.4;
+            color: #475569;
+        }
+        .submit-btn {
+            width: 100%;
+            background: #801018;
+            background: linear-gradient(135deg, #801018 0%, #5a0b11 100%);
+            color: #ffffff;
+            border: 1.5px solid #b38728;
+            padding: 14px;
+            font-family: 'Cinzel', serif;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            border-radius: 6px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(128, 16, 24, 0.35);
+            transition: all 0.2s ease;
+        }
+        .submit-btn:hover {
+            background: linear-gradient(135deg, #99131d 0%, #6e0e15 100%);
+            box-shadow: 0 6px 16px rgba(128, 16, 24, 0.45);
+            transform: translateY(-1px);
+        }
+        .footer-note {
+            text-align: center;
+            font-size: 10px;
+            color: #8a6d25;
+            margin-top: 16px;
+            letter-spacing: 0.5px;
+        }
+        .view-section { display: block; }
+        .hidden-view { display: none; }
+        /* Modal Success */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(4px);
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            padding: 20px;
+        }
+        .modal-box {
+            background: #fbf9f4;
+            border: 2px solid #b38728;
+            border-radius: 12px;
+            max-width: 480px;
+            width: 100%;
+            padding: 28px 22px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+        }
+        .modal-icon {
+            font-size: 38px;
+            color: #801018;
+            margin-bottom: 8px;
+        }
+        .modal-title {
+            font-family: 'Cinzel', serif;
+            font-size: 18px;
+            font-weight: 800;
+            color: #801018;
+            margin-bottom: 8px;
+        }
+        .modal-desc {
+            font-size: 13px;
+            line-height: 1.5;
+            color: #334155;
+            margin-bottom: 18px;
+        }
+        .citizen-code-box {
+            background: #f4ede1;
+            border: 2px dashed #801018;
+            border-radius: 8px;
+            padding: 12px;
+            margin: 14px 0;
+        }
+        .citizen-code-title {
+            font-size: 11px;
+            font-weight: 700;
+            color: #801018;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .citizen-code-number {
+            font-family: 'Cinzel', monospace;
+            font-size: 24px;
+            font-weight: 900;
+            color: #1e293b;
+            letter-spacing: 3px;
+            margin: 6px 0;
+        }
+        .citizen-code-info {
+            font-size: 11px;
+            color: #64748b;
+        }
+        .modal-close-btn {
+            background: #801018;
+            color: #fff;
+            border: 1px solid #b38728;
+            padding: 10px 24px;
+            font-size: 12px;
+            font-weight: 700;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="form-card">
+        <div class="header">
+            <div class="badge">Acceso Exclusivo por Invitación</div>
+            <div class="title">CIVITAS CORDIS</div>
+            <div class="subtitle">«El amor que se registra, se cuida»</div>
+        </div>
+
+        <!-- ================= VISTA 1: REGISTRO CON CÓDIGO (OFICIAL) ================= -->
+        <div id="vistaRegistro" class="view-section">
+            <div class="exclusive-banner">
+                <b>ACCESO RESTRINGIDO A LA COMUNIDAD CIVITAS:</b><br>
+                El registro es exclusivo por invitación. Ingresa el código alfanumérico de tu patrocinador (ej: <b>CC-FUND-001</b> a <b>CC-FUND-010</b>, o código de afiliado <b>CC-XXXXXXX</b>).
+            </div>
+
+            <form id="registroForm">
+                <!-- Código de Invitación OBLIGATORIO -->
+                <div class="form-group">
+                    <label for="codigoInvitacion">Código de Invitación Obligatorio <span class="req">*</span></label>
+                    <div class="code-input-wrapper">
+                        <input type="text" id="codigoInvitacion" name="codigoInvitacion" required placeholder="Ej: CC-FUND-001 o CC-7K9M2QX" autocomplete="off">
+                    </div>
+                    <div id="codeFeedback" class="validation-msg"></div>
+                    <span class="no-code-link" onclick="mostrarListaEspera()">¿No tienes código de invitación? Haz clic aquí para solicitar acceso</span>
+                </div>
+
+                <!-- Nombre Completo -->
+                <div class="form-group">
+                    <label for="nombre">Nombre y Apellidos completos <span class="req">*</span></label>
+                    <input type="text" id="nombre" name="nombre" required placeholder="Tu nombre completo">
+                </div>
+
+                <!-- Correo Electrónico -->
+                <div class="form-group">
+                    <label for="email">Correo Electrónico Principal <span class="req">*</span></label>
+                    <input type="email" id="email" name="email" required placeholder="tu-correo@ejemplo.com">
+                </div>
+
+                <!-- WhatsApp -->
+                <div class="form-group">
+                    <label for="whatsapp">Número de WhatsApp (con código de país) <span class="req">*</span></label>
+                    <input type="tel" id="whatsapp" name="whatsapp" required placeholder="+57 300 123 4567">
+                </div>
+
+                <!-- Ciudad y País -->
+                <div class="form-group">
+                    <label for="ubicacion">Ciudad y País de Residencia <span class="req">*</span></label>
+                    <input type="text" id="ubicacion" name="ubicacion" required placeholder="Ej: Bogotá, Colombia">
+                </div>
+
+                <!-- Situación Sentimental -->
+                <div class="form-group">
+                    <label for="situacionSentimental">Situación Sentimental Actual</label>
+                    <select id="situacionSentimental" name="situacionSentimental">
+                        <option value="">Selecciona una opción...</option>
+                        <option value="Soltero(a)">Soltero/a buscando conectar con propósito</option>
+                        <option value="En noviazgo formal">En noviazgo formal (con pacto o planes)</option>
+                        <option value="Conociendo a alguien">En relación exploratoria / Conociendo a alguien</option>
+                        <option value="Casado(a)">Casado/a</option>
+                        <option value="Prefiero no responder">Prefiero no responder</option>
+                    </select>
+                </div>
+
+                <!-- Privacidad -->
+                <div class="checkbox-group">
+                    <input type="checkbox" id="privacidad" name="privacidad" required checked>
+                    <label for="privacidad" class="checkbox-label">
+                        Acepto los términos de honor, confidencialidad y tratamiento de datos personales de <b>Civitas Cordis</b>.
+                    </label>
+                </div>
+
+                <button type="submit" class="submit-btn" id="btnEnviar">VALIDAR CÓDIGO Y COMPLETAR INSCRIPCIÓN</button>
+            </form>
+        </div>
+
+        <!-- ================= VISTA 2: SOLICITUD DE ACCESO / LISTA DE ESPERA ================= -->
+        <div id="vistaEspera" class="hidden-view">
+            <div class="exclusive-banner" style="border-left-color: #8a6d25; background: #fffcf5;">
+                <b>SOLICITUD DE ADMISIÓN A CIVITAS CORDIS:</b><br>
+                Si no cuentas con un código activo pero deseas ingresar, deja tus datos para evaluar tu solicitud y asignarte un código de invitación.
+            </div>
+
+            <form id="esperaForm">
+                <div class="form-group">
+                    <label for="nombreEspera">Nombre y Apellidos completos <span class="req">*</span></label>
+                    <input type="text" id="nombreEspera" name="nombreEspera" required placeholder="Tu nombre completo">
+                </div>
+
+                <div class="form-group">
+                    <label for="emailEspera">Correo Electrónico <span class="req">*</span></label>
+                    <input type="email" id="emailEspera" name="emailEspera" required placeholder="tu-correo@ejemplo.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="whatsappEspera">WhatsApp (con código de país) <span class="req">*</span></label>
+                    <input type="tel" id="whatsappEspera" name="whatsappEspera" required placeholder="+57 300 123 4567">
+                </div>
+
+                <div class="form-group">
+                    <label for="motivoEspera">¿Por qué te gustaría unirte a Civitas Cordis?</label>
+                    <textarea id="motivoEspera" name="motivoEspera" rows="3" placeholder="Cuéntanos qué buscas o qué te atrajo del proyecto..."></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn" style="background: linear-gradient(135deg, #14233c 0%, #0d1727 100%); border-color: #8a6d25;">
+                    ENVIAR SOLICITUD DE ACCESO
+                </button>
+
+                <div style="text-align: center; margin-top: 14px;">
+                    <span class="no-code-link" onclick="mostrarRegistro()">¿Ya conseguiste tu código? Volver al registro principal</span>
+                </div>
+            </form>
+        </div>
+
+        <div class="footer-note">
+            CIVITAS CORDIS · REPÚBLICA DEL AMOR · EST. 1928
+        </div>
+    </div>
+
+    <!-- Modal de Confirmación y Entrega de Código Propio -->
+    <div class="modal-overlay" id="modalExito">
+        <div class="modal-box">
+            <div class="modal-icon">✦</div>
+            <div class="modal-title" id="modalTitulo">¡INSCRIPCIÓN EXITOSA!</div>
+            <div class="modal-desc" id="modalMensaje"></div>
+            
+            <div class="citizen-code-box" id="cajaCodigoAsignado" style="display: none;">
+                <div class="citizen-code-title">Tu Código de Ciudadano / Afiliado es:</div>
+                <div class="citizen-code-number" id="codigoNuevoTexto">CC-XXXXXXX</div>
+                <div class="citizen-code-info">Comparte este código exclusivo para invitar a tus amigos y parejas a Civitas Cordis.</div>
+            </div>
+
+            <button class="modal-close-btn" onclick="cerrarModal()">ENTENDIDO</button>
+        </div>
+    </div>
+
+    <script>
+        // Caracteres seguros alfanuméricos (excluye O, 0, I, 1 para cero errores visuales)
+        // 32 caracteres ^ 7 = 34,359,738,368 combinaciones (más de 34 MIL MILLONES de personas!)
+        const CHARSET_ALFANUMERICO = "23456789ABCDEFGHJKLMNPQRSTUVWXYZ";
+
+        function generarNuevoCodigoCiudadano() {
+            let res = "CC-";
+            for (let i = 0; i < 7; i++) {
+                const idx = Math.floor(Math.random() * CHARSET_ALFANUMERICO.length);
+                res += CHARSET_ALFANUMERICO[idx];
+            }
+            return res;
+        }
+
+        // Códigos fundadores iniciales
+        const CODIGOS_FUNDADORES = [
+            'CC-FUND-001', 'CC-FUND-002', 'CC-FUND-003', 'CC-FUND-004', 'CC-FUND-005',
+            'CC-FUND-006', 'CC-FUND-007', 'CC-FUND-008', 'CC-FUND-009', 'CC-FUND-010'
+        ];
+
+        const vistaRegistro = document.getElementById('vistaRegistro');
+        const vistaEspera = document.getElementById('vistaEspera');
+        const inputCodigo = document.getElementById('codigoInvitacion');
+        const codeFeedback = document.getElementById('codeFeedback');
+        const modal = document.getElementById('modalExito');
+        const cajaCodigo = document.getElementById('cajaCodigoAsignado');
+
+        // Validador universal alfanumérico (soporta fundadores y escala de miles de millones)
+        function esCodigoValido(val) {
+            if (CODIGOS_FUNDADORES.includes(val)) return true;
+            if (val.startsWith('CC-FUND-')) return true;
+            // Valida códigos alfanuméricos de afiliados tipo CC-XXXXXX o CC-XXXXXXX
+            const regexAfiliado = /^CC-[A-Z0-9]{5,8}$/;
+            return regexAfiliado.test(val);
+        }
+
+        inputCodigo.addEventListener('input', function() {
+            const val = this.value.trim().toUpperCase();
+            this.value = val;
+
+            if (val.length === 0) {
+                codeFeedback.className = "validation-msg";
+                codeFeedback.innerText = "";
+                return;
+            }
+
+            if (esCodigoValido(val)) {
+                codeFeedback.className = "validation-msg valid";
+                codeFeedback.innerText = "✓ Código Válido Reconocido. Acceso Autorizado.";
+            } else {
+                codeFeedback.className = "validation-msg invalid";
+                codeFeedback.innerText = "✗ Código no reconocido. Ingrese un código válido de invitación.";
+            }
+        });
+
+        function mostrarListaEspera() {
+            vistaRegistro.className = "hidden-view";
+            vistaEspera.className = "view-section";
+        }
+
+        function mostrarRegistro() {
+            vistaEspera.className = "hidden-view";
+            vistaRegistro.className = "view-section";
+        }
+
+        // Envío de Registro con Código
+        document.getElementById('registroForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const codigo = inputCodigo.value.trim().toUpperCase();
+
+            if (!esCodigoValido(codigo)) {
+                codeFeedback.className = "validation-msg invalid";
+                codeFeedback.innerText = "✗ Acceso denegado: Código de invitación inválido.";
+                inputCodigo.focus();
+                return;
+            }
+
+            // Generar nuevo código único de ciudadano para el inscrito (Escala 34.000 millones)
+            const nuevoCodigo = generarNuevoCodigoCiudadano();
+
+            const datos = {
+                tipo: "REGISTRO_OFICIAL",
+                codigoPatrocinador: codigo,
+                codigoNuevoAsignado: nuevoCodigo,
+                nombre: document.getElementById('nombre').value,
+                email: document.getElementById('email').value,
+                whatsapp: document.getElementById('whatsapp').value,
+                ubicacion: document.getElementById('ubicacion').value,
+                situacionSentimental: document.getElementById('situacionSentimental').value,
+                fechaRegistro: new Date().toISOString()
+            };
+
+            guardarDatos(datos, () => {
+                document.getElementById('modalTitulo').innerText = "¡INSCRIPCIÓN CONFIRMADA!";
+                document.getElementById('modalMensaje').innerHTML = 
+                    "¡Bienvenido/a a Civitas Cordis, <b>" + datos.nombre + "</b>!<br><br>Tu patrocinador (<b>" + datos.codigoPatrocinador + "</b>) ha sido validado correctamente.";
+                
+                document.getElementById('codigoNuevoTexto').innerText = nuevoCodigo;
+                cajaCodigo.style.display = 'block';
+
+                modal.style.display = 'flex';
+                document.getElementById('registroForm').reset();
+                codeFeedback.innerText = "";
+            });
+        });
+
+        // Envío de Lista de Espera (Sin código)
+        document.getElementById('esperaForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const datos = {
+                tipo: "SOLICITUD_ACCESO_ESPERA",
+                codigoPatrocinador: "SIN_CODIGO_ESPERA",
+                codigoNuevoAsignado: "PENDIENTE",
+                nombre: document.getElementById('nombreEspera').value,
+                email: document.getElementById('emailEspera').value,
+                whatsapp: document.getElementById('whatsappEspera').value,
+                motivo: document.getElementById('motivoEspera').value,
+                fechaRegistro: new Date().toISOString()
+            };
+
+            guardarDatos(datos, () => {
+                document.getElementById('modalTitulo').innerText = "SOLICITUD RECIBIDA";
+                document.getElementById('modalMensaje').innerHTML = 
+                    "Gracias, <b>" + datos.nombre + "</b>.<br><br>Tu solicitud ha sido radicada en la Lista de Espera de Civitas Cordis. Te notificaremos a tu WhatsApp o correo una vez aprobemos tu acceso.";
+                cajaCodigo.style.display = 'none';
+                modal.style.display = 'flex';
+                document.getElementById('esperaForm').reset();
+                mostrarRegistro();
+            });
+        });
+
+        function guardarDatos(datos, callback) {
+            fetch('/api/registro', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(datos)
+            }).catch(e => console.log(e));
+
+            let lista = JSON.parse(localStorage.getItem('civitas_registros') || '[]');
+            lista.push(datos);
+            localStorage.setItem('civitas_registros', JSON.stringify(lista));
+
+            setTimeout(callback, 500);
+        }
+
+        function cerrarModal() {
+            modal.style.display = 'none';
+        }
+    </script>
+</body>
+</html>
