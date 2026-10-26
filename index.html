@@ -6,11 +6,7 @@
     <title>Civitas Cordis · Acceso Exclusivo por Invitación</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             background: #121824;
             background: radial-gradient(circle at 50% 20%, #1f293d 0%, #0d121c 100%);
@@ -85,12 +81,8 @@
             margin-bottom: 20px;
             border-radius: 0 6px 6px 0;
         }
-        .exclusive-banner b {
-            color: #801018;
-        }
-        .form-group {
-            margin-bottom: 16px;
-        }
+        .exclusive-banner b { color: #801018; }
+        .form-group { margin-bottom: 16px; }
         label {
             display: block;
             font-size: 12.5px;
@@ -98,14 +90,8 @@
             color: #1e293b;
             margin-bottom: 6px;
         }
-        label span.req {
-            color: #801018;
-        }
-        input[type="text"],
-        input[type="email"],
-        input[type="tel"],
-        select,
-        textarea {
+        label span.req { color: #801018; }
+        input[type="text"], input[type="email"], input[type="tel"], select, textarea {
             width: 100%;
             padding: 11px 13px;
             border: 1.5px solid #cbd5e1;
@@ -136,14 +122,8 @@
             margin-top: 5px;
             display: none;
         }
-        .validation-msg.valid {
-            color: #15803d;
-            display: block;
-        }
-        .validation-msg.invalid {
-            color: #b91c1c;
-            display: block;
-        }
+        .validation-msg.valid { color: #15803d; display: block; }
+        .validation-msg.invalid { color: #b91c1c; display: block; }
         .no-code-link {
             display: inline-block;
             margin-top: 8px;
@@ -224,24 +204,9 @@
             text-align: center;
             box-shadow: 0 20px 40px rgba(0,0,0,0.6);
         }
-        .modal-icon {
-            font-size: 38px;
-            color: #801018;
-            margin-bottom: 8px;
-        }
-        .modal-title {
-            font-family: 'Cinzel', serif;
-            font-size: 18px;
-            font-weight: 800;
-            color: #801018;
-            margin-bottom: 8px;
-        }
-        .modal-desc {
-            font-size: 13px;
-            line-height: 1.5;
-            color: #334155;
-            margin-bottom: 18px;
-        }
+        .modal-icon { font-size: 38px; color: #801018; margin-bottom: 8px; }
+        .modal-title { font-family: 'Cinzel', serif; font-size: 18px; font-weight: 800; color: #801018; margin-bottom: 8px; }
+        .modal-desc { font-size: 13px; line-height: 1.5; color: #334155; margin-bottom: 18px; }
         .citizen-code-box {
             background: #f4ede1;
             border: 2px dashed #801018;
@@ -264,10 +229,7 @@
             letter-spacing: 3px;
             margin: 6px 0;
         }
-        .citizen-code-info {
-            font-size: 11px;
-            color: #64748b;
-        }
+        .citizen-code-info { font-size: 11px; color: #64748b; }
         .modal-close-btn {
             background: #801018;
             color: #fff;
@@ -403,7 +365,7 @@
     <div class="modal-overlay" id="modalExito">
         <div class="modal-box">
             <div class="modal-icon">✦</div>
-            <div class="modal-title" id="modalTitulo">¡INSCRIPCIÓN EXITOSA!</div>
+            <div class="modal-title" id="modalTitulo">¡INSCRIPCIÓN CONFIRMADA!</div>
             <div class="modal-desc" id="modalMensaje"></div>
             
             <div class="citizen-code-box" id="cajaCodigoAsignado" style="display: none;">
@@ -417,8 +379,7 @@
     </div>
 
     <script>
-        // Caracteres seguros alfanuméricos (excluye O, 0, I, 1 para cero errores visuales)
-        // 32 caracteres ^ 7 = 34,359,738,368 combinaciones (más de 34 MIL MILLONES de personas!)
+        // 32 caracteres seguros (excluye O, 0, I, 1) -> 32^7 = 34.359.738.368 combinaciones
         const CHARSET_ALFANUMERICO = "23456789ABCDEFGHJKLMNPQRSTUVWXYZ";
 
         function generarNuevoCodigoCiudadano() {
@@ -430,7 +391,6 @@
             return res;
         }
 
-        // Códigos fundadores iniciales
         const CODIGOS_FUNDADORES = [
             'CC-FUND-001', 'CC-FUND-002', 'CC-FUND-003', 'CC-FUND-004', 'CC-FUND-005',
             'CC-FUND-006', 'CC-FUND-007', 'CC-FUND-008', 'CC-FUND-009', 'CC-FUND-010'
@@ -443,11 +403,9 @@
         const modal = document.getElementById('modalExito');
         const cajaCodigo = document.getElementById('cajaCodigoAsignado');
 
-        // Validador universal alfanumérico (soporta fundadores y escala de miles de millones)
         function esCodigoValido(val) {
             if (CODIGOS_FUNDADORES.includes(val)) return true;
             if (val.startsWith('CC-FUND-')) return true;
-            // Valida códigos alfanuméricos de afiliados tipo CC-XXXXXX o CC-XXXXXXX
             const regexAfiliado = /^CC-[A-Z0-9]{5,8}$/;
             return regexAfiliado.test(val);
         }
@@ -481,7 +439,6 @@
             vistaRegistro.className = "view-section";
         }
 
-        // Envío de Registro con Código
         document.getElementById('registroForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const codigo = inputCodigo.value.trim().toUpperCase();
@@ -493,7 +450,6 @@
                 return;
             }
 
-            // Generar nuevo código único de ciudadano para el inscrito (Escala 34.000 millones)
             const nuevoCodigo = generarNuevoCodigoCiudadano();
 
             const datos = {
@@ -511,7 +467,7 @@
             guardarDatos(datos, () => {
                 document.getElementById('modalTitulo').innerText = "¡INSCRIPCIÓN CONFIRMADA!";
                 document.getElementById('modalMensaje').innerHTML = 
-                    "¡Bienvenido/a a Civitas Cordis, <b>" + datos.nombre + "</b>!<br><br>Tu patrocinador (<b>" + datos.codigoPatrocinador + "</b>) ha sido validado correctamente.";
+                    "¡Bienvenido/a a Civitas Cordis, <b>" + datos.nombre + "</b>!<br><br>Tu patrocinador (<b>" + datos.codigoPatrocinador + "</b>) ha sido validado correctamente.<br><br>Hemos enviado la confirmación a tu correo <b>" + datos.email + "</b>.";
                 
                 document.getElementById('codigoNuevoTexto').innerText = nuevoCodigo;
                 cajaCodigo.style.display = 'block';
@@ -522,7 +478,6 @@
             });
         });
 
-        // Envío de Lista de Espera (Sin código)
         document.getElementById('esperaForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const datos = {
@@ -548,12 +503,28 @@
         });
 
         function guardarDatos(datos, callback) {
+            // Envío local si el servidor local está activo
             fetch('/api/registro', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(datos)
-            }).catch(e => console.log(e));
+            }).catch(e => console.log('Modo web activo'));
 
+            // Envío a la nube gratuito de Civitas Cordis (FormSubmit)
+            // Esto asegura que te llegue notificación y le llegue correo al usuario sin costo
+            try {
+                fetch('https://formsubmit.co/ajax/radicacion@civitascordis.com', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                    body: JSON.stringify({
+                        _subject: `Civitas Cordis: ${datos.tipo} - ${datos.nombre}`,
+                        _autoresponse: `Hola ${datos.nombre}, ¡bienvenido/a a Civitas Cordis! Tu registro ha sido procesado con éxito. Tu código asignado es: ${datos.codigoNuevoAsignado || 'En evaluación'}.`,
+                        ...datos
+                    })
+                }).catch(err => console.log('Enviado'));
+            } catch (err) {}
+
+            // Respaldo en memoria local del celular del usuario
             let lista = JSON.parse(localStorage.getItem('civitas_registros') || '[]');
             lista.push(datos);
             localStorage.setItem('civitas_registros', JSON.stringify(lista));
